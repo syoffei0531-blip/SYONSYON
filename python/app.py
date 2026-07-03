@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -9,11 +9,14 @@ def home():
 
 @app.route("/create-video", methods=["POST"])
 def create_video():
+    data = request.get_json()
+
+    print(data)
+
     return {
         "status": "OK",
-        "message": "create-video API is working!"
+        "received": data
     }
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
