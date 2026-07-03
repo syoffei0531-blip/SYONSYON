@@ -77,7 +77,7 @@ def create_video():
         output
     ]
 
-     result = subprocess.run(
+    result = subprocess.run(
         command,
         capture_output=True,
         text=True
