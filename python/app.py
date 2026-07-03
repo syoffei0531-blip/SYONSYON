@@ -77,30 +77,30 @@ def create_video():
         output
     ]
 
-  result = subprocess.run(
-    command,
-    capture_output=True,
-    text=True
-)
+     result = subprocess.run(
+        command,
+        capture_output=True,
+        text=True
+    )
 
-print("=== FFMPEG STDOUT ===")
-print(result.stdout)
+    print("=== FFMPEG STDOUT ===")
+    print(result.stdout)
 
-print("=== FFMPEG STDERR ===")
-print(result.stderr)
+    print("=== FFMPEG STDERR ===")
+    print(result.stderr)
 
-if not os.path.exists(output):
-    return {
-        "error": "動画生成失敗",
-        "ffmpeg": result.stderr
-    }, 500
+    if not os.path.exists(output):
+        return {
+            "error": "動画生成失敗",
+            "ffmpeg": result.stderr
+        }, 500
 
-return send_file(
-    output,
-    mimetype="video/mp4",
-    as_attachment=True,
-    download_name="video.mp4"
-)
+    return send_file(
+        output,
+        mimetype="video/mp4",
+        as_attachment=True,
+        download_name="video.mp4"
+    )
 
 
 if __name__ == "__main__":
