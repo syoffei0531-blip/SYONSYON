@@ -33,9 +33,8 @@ def create_video():
         image.save(image_path)
         audio.save(audio_path)
         
-　　　　 print("IMAGE SIZE:", os.path.getsize(image_path))
+        print("IMAGE SIZE:", os.path.getsize(image_path))
         print("AUDIO SIZE:", os.path.getsize(audio_path))
-
         print("IMAGE FILE:", image.filename)
         print("AUDIO FILE:", audio.filename)
         # -----------------------
