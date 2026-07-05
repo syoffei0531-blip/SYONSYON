@@ -97,12 +97,12 @@ def create_video():
 
     except Exception as e:
         import traceback
-        traceback.print_exc()
 
         return {
-            "error": str(e)
+        "error": str(e),
+        "traceback": traceback.format_exc()
         }, 500
-
+    
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
