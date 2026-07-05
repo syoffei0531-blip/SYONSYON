@@ -12,30 +12,32 @@ def home():
 @app.route("/create-video", methods=["POST"])
 def create_video():
 
-    os.makedirs("/tmp/video", exist_ok=True)
+    try:
 
-    # -----------------------
-    # n8nからファイル受信
-    # -----------------------
+        os.makedirs("/tmp/video", exist_ok=True)
 
-    image = request.files["image"]
-    audio = request.files["audio"]
+        # -----------------------
+        # n8nからファイル受信
+        # -----------------------
 
-    # -----------------------
-    # 一時保存
-    # -----------------------
+        image = request.files["image"]
+        audio = request.files["audio"]
 
-    image_path = "/tmp/video/img0.jpg"
-    audio_path = "/tmp/video/audio.mp3"
+        # -----------------------
+        # 一時保存
+        # -----------------------
 
-    image.save(image_path)
-    audio.save(audio_path)
+        image_path = "/tmp/video/img0.jpg"
+        audio_path = "/tmp/video/audio.mp3"
+    
+        image.save(image_path)
+        audio.save(audio_path)
 
-    image_files = [image_path]
+        image_files = [image_path]
 
-    # -----------------------
-    # list.txt作成
-    # -----------------------
+        # -----------------------
+        # list.txt作成
+        # -----------------------
 
     list_path = "/tmp/video/list.txt"
 
@@ -89,6 +91,12 @@ def create_video():
         download_name="video.mp4"
     )
 
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return {
+            "error": str(e)
+        }, 500
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
