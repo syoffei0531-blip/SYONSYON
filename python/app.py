@@ -68,8 +68,8 @@ def create_video():
             capture_output=True,
             text=True
             )
-            print(result.returncode)
-            print(result.stderr)
+        print(result.returncode)
+        print(result.stderr)
         if result.returncode != 0:
             return {
             "error": "FFmpeg failed",
