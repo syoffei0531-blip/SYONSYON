@@ -49,13 +49,23 @@ def create_video():
             "-loop", "1",
             "-i", image_path,
             "-i", audio_path,
+
+            "-map", "0:v:0",
+            "-map", "1:a:0",
+
             "-c:v", "libx264",
-            "-tune", "stillimage",
             "-preset", "ultrafast",
-            "-r", "30",
-            "-pix_fmt", "yuv420p",
+            "-tune", "stillimage",
+
             "-c:a", "aac",
+
+            "-pix_fmt", "yuv420p",
+            "-r", "30",
+
+            "-movflags", "+faststart",
+
             "-shortest",
+
             output
             ]
         print("FFMPEG START")
