@@ -44,20 +44,20 @@ def create_video():
         output = "/tmp/video/output.mp4"
 
         command = [
-        "ffmpeg",
-        "-y",
-        "-loop", "1",
-        "-framerate", "1",
-        "-i", image_path,
-        "-i", audio_path,
-        "-c:v", "libx264",
-        "-preset", "ultrafast",
-        "-tune", "stillimage",
-        "-c:a", "aac",
-        "-pix_fmt", "yuv420p",
-        "-shortest",
-        output
-        ]
+            "ffmpeg",
+            "-y",
+            "-loop", "1",
+            "-i", image_path,
+            "-i", audio_path,
+            "-c:v", "libx264",
+            "-tune", "stillimage",
+            "-preset", "ultrafast",
+            "-r", "30",
+            "-pix_fmt", "yuv420p",
+            "-c:a", "aac",
+            "-shortest",
+            output
+            ]
         print("FFMPEG START")
         print(command)
         print("RUNNING...")
