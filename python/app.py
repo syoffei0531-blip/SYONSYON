@@ -44,19 +44,21 @@ def create_video():
         output = "/tmp/video/output.mp4"
 
         command = [
-           "ffmpeg",
-           "-y",
-           "-loop", "1",
-           "-i", image_path,
-           "-i", audio_path,
-           "-c:v", "libx264",
-           "-tune", "stillimage",
-           "-c:a", "aac",
-           "-b:a", "192k",
-           "-pix_fmt", "yuv420p",
-           "-shortest",
-           output
-         ]
+        "ffmpeg",
+        "-y",
+        "-loop", "1",
+        "-framerate", "30",
+        "-i", image_path,
+        "-i", audio_path,
+        "-t", "60",
+        "-c:v", "libx264",
+        "-preset", "fast",
+        "-pix_fmt", "yuv420p",
+        "-c:a", "aac",
+        "-b:a", "192k",
+        "-shortest",
+        output
+        ]
         print("FFMPEG START")
         print(command)
         print("RUNNING...")
@@ -66,7 +68,13 @@ def create_video():
             capture_output=True,
             text=True
             )
-
+        
+        if result.returncode != 0:
+            return {
+            "error": "FFmpeg failed",
+            "stderr": result.stderr
+            }, 500
+            
         print("FFMPEG FINISHED")
         print("=== FFMPEG STDOUT ===")
         print(result.stdout)
