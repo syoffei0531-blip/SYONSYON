@@ -90,11 +90,10 @@ def create_video():
             }, 500
 
         return send_file(
-            output,
-            mimetype="video/mp4",
-            as_attachment=True,
-            download_name="video.mp4"
-        )
+           output,
+           mimetype="video/mp4",
+           as_attachment=False
+           )
 
     except Exception as e:
         import traceback
