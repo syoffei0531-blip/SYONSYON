@@ -61,7 +61,8 @@ def create_video():
         print("FFMPEG START")
         print(command)
         print("RUNNING...")
- 
+        print(" ".join(command))
+        
         result = subprocess.run(
             command,
             capture_output=True,
