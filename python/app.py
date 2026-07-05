@@ -33,21 +33,6 @@ def create_video():
         image.save(image_path)
         audio.save(audio_path)
 
-        image_files = [image_path]
-
-        # -----------------------
-        # list.txt作成
-        # -----------------------
-
-        list_path = "/tmp/video/list.txt"
-
-        with open(list_path, "w") as f:
-            for img in image_files:
-                f.write(f"file '{img}'\n")
-                f.write("duration 5\n")
-
-            f.write(f"file '{image_files[-1]}'\n")
-
         # -----------------------
         # FFmpeg
         # -----------------------
