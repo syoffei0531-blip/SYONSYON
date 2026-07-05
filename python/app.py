@@ -55,16 +55,19 @@ def create_video():
         output = "/tmp/video/output.mp4"
 
         command = [
-            "ffmpeg",
-            "-y",
-            "-f", "concat",
-            "-safe", "0",
-            "-i", list_path,
-            "-i", audio_path,
-            "-shortest",
-            "-pix_fmt", "yuv420p",
-            output
-        ]
+           "ffmpeg",
+           "-y",
+           "-loop", "1",
+           "-i", image_path,
+           "-i", audio_path,
+           "-c:v", "libx264",
+           "-tune", "stillimage",
+           "-c:a", "aac",
+           "-b:a", "192k",
+           "-pix_fmt", "yuv420p",
+           "-shortest",
+           output
+       ]
 
         result = subprocess.run(
             command,
