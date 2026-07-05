@@ -52,14 +52,18 @@ def create_video():
            "-pix_fmt", "yuv420p",
            "-shortest",
            output
-       ]
-
+         ]
+        print("FFMPEG START")
+        print(command)
+        print("RUNNING...")
+ 
         result = subprocess.run(
             command,
             capture_output=True,
             text=True
-        )
+            )
 
+        print("FFMPEG FINISHED")
         print("=== FFMPEG STDOUT ===")
         print(result.stdout)
 
