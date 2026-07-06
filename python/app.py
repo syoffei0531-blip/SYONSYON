@@ -93,7 +93,7 @@ def create_video():
         print("=== FFMPEG STDERR ===")
         print(result.stderr)
 
-                if not os.path.exists(output):
+        if not os.path.exists(output):
             return {
                 "error": "動画生成失敗",
                 "ffmpeg": result.stderr
