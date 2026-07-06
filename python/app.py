@@ -93,36 +93,39 @@ def create_video():
         print("=== FFMPEG STDERR ===")
         print(result.stderr)
 
-        if not os.path.exists(output):
-        return {
-        "error": "動画生成失敗",
-        "ffmpeg": result.stderr
-        }, 500
+                if not os.path.exists(output):
+            return {
+                "error": "動画生成失敗",
+                "ffmpeg": result.stderr
+            }, 500
 
         # -----------------------
         # ffprobeで動画情報を確認
         # -----------------------
 
         probe = subprocess.run(
-        [
-        "ffprobe",
-        "-v", "error",
-        "-show_entries", "format=duration,size",
-        "-of", "default=noprint_wrappers=1",
-        output
-        ],
-        capture_output=True,
-        text=True
+            [
+                "ffprobe",
+                "-v", "error",
+                "-show_entries", "format=duration,size",
+                "-of", "default=noprint_wrappers=1",
+                output
+            ],
+            capture_output=True,
+            text=True
         )
 
         print("========== FFPROBE ==========")
         print(probe.stdout)
         print("=============================")
 
+        print("OUTPUT EXISTS:", os.path.exists(output))
+        print("OUTPUT SIZE:", os.path.getsize(output))
+
         return send_file(
-        output,
-        mimetype="video/mp4",
-        as_attachment=False
+            output,
+            mimetype="video/mp4",
+            as_attachment=False
         )
     except Exception as e:
         import traceback
