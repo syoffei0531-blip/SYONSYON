@@ -20,23 +20,90 @@ def create_video():
         # n8nからファイル受信
         # -----------------------
 
-        image = request.files["image"]
+        image1 = request.files["image1"]
+        image2 = request.files["image2"]
+        image3 = request.files["image3"]
+        image4 = request.files["image4"]
+
         audio = request.files["audio"]
 
         # -----------------------
         # 一時保存
         # -----------------------
 
-        image_path = "/tmp/video/img0.jpg"
+        image1_path = "/tmp/video/img1.jpg"
+        image2_path = "/tmp/video/img2.jpg"
+        image3_path = "/tmp/video/img3.jpg"
+        image4_path = "/tmp/video/img4.jpg"
+        
         audio_path = "/tmp/video/audio.mp3"
 
-        image.save(image_path)
+        image1.save(image1_path)
+        image2.save(image2_path)
+        image3.save(image3_path)
+        image4.save(image4_path)
+
         audio.save(audio_path)
         
-        print("IMAGE SIZE:", os.path.getsize(image_path))
-        print("AUDIO SIZE:", os.path.getsize(audio_path))
-        print("IMAGE FILE:", image.filename)
-        print("AUDIO FILE:", audio.filename)
+        print("IMAGE1:", image1.filename)
+        print("IMAGE2:", image2.filename)
+        print("IMAGE3:", image3.filename)
+        print("IMAGE4:", image4.filename)
+
+        print("AUDIO:", audio.filename)
+        print("AUDIO:", audio.filename)
+
+        # -----------------------
+        # 音声の長さ取得
+        # -----------------------
+
+        probe = subprocess.run(
+        [
+        "ffprobe",
+        "-v", "error",
+        "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1",
+        audio_path
+        ],
+        capture_output=True,
+        text=True
+        )
+
+        duration = float(probe.stdout.strip())
+        scene = duration / 4
+
+        print("DURATION:", duration)
+        print("SCENE:", scene)
+
+        # -----------------------
+        # list.txt 作成
+        # -----------------------
+
+        list_path = "/tmp/video/list.txt"
+
+        with open(list_path, "w") as f:
+            f.write(f"file '{image1_path}'\n")
+            f.write(f"duration {scene}\n")
+
+            f.write(f"file '{image2_path}'\n")
+            f.write(f"duration {scene}\n")
+
+            f.write(f"file '{image3_path}'\n")
+            f.write(f"duration {scene}\n")
+
+            f.write(f"file '{image4_path}'\n")
+            f.write(f"duration {scene}\n")
+
+            f.write(f"file '{image4_path}'\n")
+
+        print(open(list_path).read())
+# -----------------------
+# FFmpeg
+# -----------------------
+
+output = "/tmp/video/output.mp4"
+
+command = [
         # -----------------------
         # FFmpeg
         # -----------------------
@@ -46,28 +113,26 @@ def create_video():
         command = [
             "ffmpeg",
             "-y",
-            "-loop", "1",
-            "-i", image_path,
+
+            "-f", "concat",
+            "-safe", "0",
+            "-i", list_path,
+
             "-i", audio_path,
 
-            "-map", "0:v:0",
-            "-map", "1:a:0",
+            "-vsync", "vfr",
+
+            "-pix_fmt", "yuv420p",
 
             "-c:v", "libx264",
             "-preset", "ultrafast",
-            "-tune", "stillimage",
 
             "-c:a", "aac",
-
-            "-pix_fmt", "yuv420p",
-            "-r", "30",
-
-            "-movflags", "+faststart",
 
             "-shortest",
 
             output
-            ]
+         ]
         print("FFMPEG START")
         print(command)
         print("RUNNING...")
