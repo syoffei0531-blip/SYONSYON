@@ -97,13 +97,13 @@ def create_video():
             f.write(f"file '{image4_path}'\n")
 
         print(open(list_path).read())
-# -----------------------
-# FFmpeg
-# -----------------------
+        # -----------------------
+        # FFmpeg
+        # -----------------------
 
-output = "/tmp/video/output.mp4"
+        output = "/tmp/video/output.mp4"
 
-command = [
+        command = [
         # -----------------------
         # FFmpeg
         # -----------------------
