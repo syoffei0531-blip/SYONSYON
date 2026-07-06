@@ -125,7 +125,7 @@ def create_video():
             "-shortest",
 
             output
-         ]
+        ]
         print("FFMPEG START")
         print(command)
         print("RUNNING...")
