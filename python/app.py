@@ -44,6 +44,17 @@ def create_video():
         image4.save(image4_path)
 
         audio.save(audio_path)
+
+        print("========== SAVED FILES ==========")
+
+        for path in [image1_path, image2_path, image3_path, image4_path]:
+            print(
+                path,
+                "exists=", os.path.exists(path),
+                "size=", os.path.getsize(path) if os.path.exists(path) else "NOT FOUND"
+                )
+
+        print("=================================")
         
         # 保存されたファイルサイズ確認
         print("IMAGE1 SIZE:", os.path.getsize(image1_path))
