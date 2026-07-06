@@ -104,13 +104,6 @@ def create_video():
         output = "/tmp/video/output.mp4"
 
         command = [
-        # -----------------------
-        # FFmpeg
-        # -----------------------
-
-        output = "/tmp/video/output.mp4"
-
-        command = [
             "ffmpeg",
             "-y",
 
