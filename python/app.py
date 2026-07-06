@@ -31,10 +31,10 @@ def create_video():
         # 一時保存
         # -----------------------
 
-        image1_path = "/tmp/video/img1.jpg"
-        image2_path = "/tmp/video/img2.jpg"
-        image3_path = "/tmp/video/img3.jpg"
-        image4_path = "/tmp/video/img4.jpg"
+        image1_path = "/tmp/video/img1.png"
+        image2_path = "/tmp/video/img2.png"
+        image3_path = "/tmp/video/img3.png"
+        image4_path = "/tmp/video/img4.png"
         
         audio_path = "/tmp/video/audio.mp3"
 
