@@ -45,6 +45,12 @@ def create_video():
 
         audio.save(audio_path)
         
+        # 保存されたファイルサイズ確認
+        print("IMAGE1 SIZE:", os.path.getsize(image1_path))
+        print("IMAGE2 SIZE:", os.path.getsize(image2_path))
+        print("IMAGE3 SIZE:", os.path.getsize(image3_path))
+        print("IMAGE4 SIZE:", os.path.getsize(image4_path))
+
         print("IMAGE1:", image1.filename)
         print("IMAGE2:", image2.filename)
         print("IMAGE3:", image3.filename)
