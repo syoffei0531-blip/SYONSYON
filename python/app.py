@@ -26,7 +26,8 @@ def create_video():
         image4 = request.files["image4"]
 
         audio = request.files["audio"]
-
+        bgm = request.files["bgm"]
+        
         # -----------------------
         # 一時保存
         # -----------------------
@@ -37,14 +38,16 @@ def create_video():
         image4_path = "/tmp/video/img4.png"
         
         audio_path = "/tmp/video/audio.mp3"
-
+        bgm_path = "/tmp/video/bgm.mp3"
+        
         image1.save(image1_path)
         image2.save(image2_path)
         image3.save(image3_path)
         image4.save(image4_path)
 
         audio.save(audio_path)
-
+        bgm.save(bgm_path)
+        
         print("========== SAVED FILES ==========")
 
         for path in [image1_path, image2_path, image3_path, image4_path]:
@@ -149,17 +152,21 @@ def create_video():
             "-i", image4_path,
 
             "-i", audio_path,
-
+            "-i", bgm_path,
+            
             "-filter_complex",
 
             "[0:v]scale=1080:1920,setsar=1[v0];"
             "[1:v]scale=1080:1920,setsar=1[v1];"
             "[2:v]scale=1080:1920,setsar=1[v2];"
             "[3:v]scale=1080:1920,setsar=1[v3];"
-            "[v0][v1][v2][v3]concat=n=4:v=1:a=0[v]",
-
-            "-map", "[v]",
-            "-map", "4:a",
+            "[v0][v1][v2][v3]concat=n=4:v=1:a=0[video];"
+            "[4:a]volume=1.0[narration];"
+            "[5:a]volume=0.15[bgm];"
+            "[narration][bgm]amix=inputs=2:duration=first[audio]",
+            
+            "-map", "[video]",
+            "-map", "[audio]",
 
             "-c:v", "libx264",
             "-preset", "ultrafast",
