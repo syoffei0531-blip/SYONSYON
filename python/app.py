@@ -87,7 +87,7 @@ def create_video():
         )
 
         duration = float(probe.stdout.strip())
-        scene = duration / 4
+        scene_duration = duration / 4
 
         print("DURATION:", duration)
         print("SCENE:", scene)
@@ -100,17 +100,17 @@ def create_video():
 
         with open(list_path, "w") as f:
             f.write(f"file '{image1_path}'\n")
-            f.write(f"duration {scene}\n")
+            f.write(f"duration {scene_duration}\n")
 
             f.write(f"file '{image2_path}'\n")
-            f.write(f"duration {scene}\n")
+            f.write(f"duration {scene_duration}\n")
 
             f.write(f"file '{image3_path}'\n")
-            f.write(f"duration {scene}\n")
-
+            f.write(f"duration {scene_duration}\n")
+        
             f.write(f"file '{image4_path}'\n")
-            f.write(f"duration {scene}\n")
-
+            f.write(f"duration {scene_duration}\n")
+            
             f.write(f"file '{image4_path}'\n")
 
         print(open(list_path).read())
@@ -129,8 +129,6 @@ def create_video():
             "-i", list_path,
 
             "-i", audio_path,
-
-            "-vsync", "vfr",
 
             "-pix_fmt", "yuv420p",
 
