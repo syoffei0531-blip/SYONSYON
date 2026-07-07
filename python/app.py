@@ -118,11 +118,16 @@ def create_video():
             "-loop", "1",
             "-t", str(scene_duration),
             "-i", image4_path,
-            
+
             "-i", audio_path,
 
             "-filter_complex",
-            "[0:v][1:v][2:v][3:v]concat=n=4:v=1:a=0[v]",
+
+            "[0:v]scale=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':d=125:s=1080x1920[v0];"
+            "[1:v]scale=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':d=125:s=1080x1920[v1];"
+            "[2:v]scale=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':d=125:s=1080x1920[v2];"
+            "[3:v]scale=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':d=125:s=1080x1920[v3];"
+            "[v0][v1][v2][v3]concat=n=4:v=1:a=0[v]",
 
             "-map", "[v]",
             "-map", "4:a",
