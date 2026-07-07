@@ -92,28 +92,7 @@ def create_video():
         print("DURATION:", duration)
         print("SCENE:", scene_duration)
 
-        # -----------------------
-        # list.txt 作成
-        # -----------------------
-
-        list_path = "/tmp/video/list.txt"
-
-        with open(list_path, "w") as f:
-            f.write(f"file '{image1_path}'\n")
-            f.write(f"duration {scene_duration}\n")
-
-            f.write(f"file '{image2_path}'\n")
-            f.write(f"duration {scene_duration}\n")
-
-            f.write(f"file '{image3_path}'\n")
-            f.write(f"duration {scene_duration}\n")
-        
-            f.write(f"file '{image4_path}'\n")
-            f.write(f"duration {scene_duration}\n")
-            
-            f.write(f"file '{image4_path}'\n")
-
-        print(open(list_path).read())
+  
         # -----------------------
         # FFmpeg
         # -----------------------
@@ -124,23 +103,41 @@ def create_video():
             "ffmpeg",
             "-y",
 
-            "-f", "concat",
-            "-safe", "0",
-            "-i", list_path,
+            "-loop", "1",
+            "-t", str(scene_duration),
+            "-i", image1_path,
 
+            "-loop", "1",
+            "-t", str(scene_duration),
+            "-i", image2_path,
+
+            "-loop", "1",
+            "-t", str(scene_duration),
+            "-i", image3_path,
+
+            "-loop", "1",
+            "-t", str(scene_duration),
+            "-i", image4_path,
+            
             "-i", audio_path,
 
-            "-pix_fmt", "yuv420p",
+            "-filter_complex",
+            "[0:v][1:v][2:v][3:v]concat=n=4:v=1:a=0[v]",
+
+            "-map", "[v]",
+            "-map", "4:a",
 
             "-c:v", "libx264",
             "-preset", "ultrafast",
+            "-pix_fmt", "yuv420p",
 
             "-c:a", "aac",
 
             "-shortest",
 
             output
-        ]
+            ]
+        
         print("FFMPEG START")
         print(command)
         print("RUNNING...")
