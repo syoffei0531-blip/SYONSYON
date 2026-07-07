@@ -241,10 +241,14 @@ def create_video():
     except Exception as e:
         import traceback
 
+        print("========== ERROR ==========")
+        print(traceback.format_exc())
+        print("===========================")
+
         return {
-        "error": str(e),
-        "traceback": traceback.format_exc()
-        }, 500
+            "error": str(e),
+            "traceback": traceback.format_exc()
+            }, 500
     
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
