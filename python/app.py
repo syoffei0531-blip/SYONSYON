@@ -90,7 +90,7 @@ def create_video():
         scene_duration = duration / 4
 
         print("DURATION:", duration)
-        print("SCENE:", scene)
+        print("SCENE:", scene_duration)
 
         # -----------------------
         # list.txt 作成
