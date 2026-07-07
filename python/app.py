@@ -89,6 +89,28 @@ def create_video():
         duration = float(probe.stdout.strip())
         scene_duration = duration / 4
 
+        # -----------------------
+        # list.txt 作成
+        # -----------------------
+
+        list_path = "/tmp/video/list.txt"
+
+        with open(list_path, "w") as f:
+            f.write(f"file '{image1_path}'\n")
+            f.write(f"duration {scene_duration}\n")
+
+            f.write(f"file '{image2_path}'\n")
+            f.write(f"duration {scene_duration}\n")
+
+            f.write(f"file '{image3_path}'\n")
+            f.write(f"duration {scene_duration}\n")
+
+            f.write(f"file '{image4_path}'\n")
+            f.write(f"duration {scene_duration}\n")
+
+            # 最後はもう一度同じ画像を書く（FFmpeg concatの仕様）
+            f.write(f"file '{image4_path}'\n")
+
         print("DURATION:", duration)
         print("SCENE:", scene_duration)
 
@@ -103,38 +125,16 @@ def create_video():
             "ffmpeg",
             "-y",
 
-            "-loop", "1",
-            "-t", str(scene_duration),
-            "-i", image1_path,
-
-            "-loop", "1",
-            "-t", str(scene_duration),
-            "-i", image2_path,
-
-            "-loop", "1",
-            "-t", str(scene_duration),
-            "-i", image3_path,
-
-            "-loop", "1",
-            "-t", str(scene_duration),
-            "-i", image4_path,
+            "-f", "concat",
+            "-safe", "0",
+            "-i", list_path,
 
             "-i", audio_path,
 
-            "-filter_complex",
-
-            "[0:v]scale=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':d=125:s=1080x1920[v0];"
-            "[1:v]scale=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':d=125:s=1080x1920[v1];"
-            "[2:v]scale=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':d=125:s=1080x1920[v2];"
-            "[3:v]scale=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':d=125:s=1080x1920[v3];"
-            "[v0][v1][v2][v3]concat=n=4:v=1:a=0[v]",
-
-            "-map", "[v]",
-            "-map", "4:a",
+            "-pix_fmt", "yuv420p",
 
             "-c:v", "libx264",
             "-preset", "ultrafast",
-            "-pix_fmt", "yuv420p",
 
             "-c:a", "aac",
 
