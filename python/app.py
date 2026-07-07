@@ -111,12 +111,12 @@ def create_video():
             # 最後はもう一度同じ画像を書く（FFmpeg concatの仕様）
             f.write(f"file '{image4_path}'\n")
 
-            print("========== LIST.TXT ==========")
+        print("========== LIST.TXT ==========")
 
-            with open(list_path, "r") as f:
+        with open(list_path, "r") as f:
             print(f.read())
 
-            print("==============================")
+        print("==============================")
             
         print("DURATION:", duration)
         print("SCENE:", scene_duration)
