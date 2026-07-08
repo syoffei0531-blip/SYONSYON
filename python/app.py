@@ -185,6 +185,8 @@ def create_video():
 
         fade = 0.5
 
+        scene_duration += (fade * 3) / 4
+
         offset1 = scene_duration - fade
         offset2 = (scene_duration * 2) - (fade * 2)
         offset3 = (scene_duration * 3) - (fade * 3)
