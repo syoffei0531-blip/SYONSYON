@@ -167,6 +167,9 @@ def create_video():
             f"afade=t=out:st={duration-2}:d=2"
             "[bgm];"
             "[narration][bgm]amix=inputs=2:duration=first[audio]",
+
+            "-vf",
+            f"subtitles={subtitle_path}",
             
             "-map", "[video]",
             "-map", "[audio]",
