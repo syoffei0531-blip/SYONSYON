@@ -1,6 +1,8 @@
 from flask import Flask, request, send_file
 import subprocess
 import os
+import requests
+import json
 
 app = Flask(__name__)
 
@@ -27,7 +29,7 @@ def create_video():
 
         audio = request.files["audio"]
         bgm = request.files["bgm"]
-        subtitle = request.files["subtitle"]
+        script = request.files["script"]
         
         # -----------------------
         # 一時保存
@@ -41,6 +43,7 @@ def create_video():
         audio_path = "/tmp/video/audio.mp3"
         bgm_path = "/tmp/video/bgm.mp3"
         subtitle_path = "/tmp/video/subtitle.srt"
+        script_path = "/tmp/video/script.txt"
         
         image1.save(image1_path)
         image2.save(image2_path)
@@ -49,7 +52,7 @@ def create_video():
 
         audio.save(audio_path)
         bgm.save(bgm_path)
-        subtitle.save(subtitle_path)
+        script.save(script_path)
         
         print("========== SAVED FILES ==========")
 
