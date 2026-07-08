@@ -77,7 +77,8 @@ def create_video():
         print("IMAGE4:", image4.filename)
 
         print("AUDIO:", audio.filename)
-        print("AUDIO:", audio.filename)
+        print("BGM:", bgm.filename)
+        print("SCRIPT:", script.filename)
 
         # -----------------------
         # 音声の長さ取得
@@ -98,6 +99,51 @@ def create_video():
         duration = float(probe.stdout.strip())
         scene_duration = duration / 4
 
+        # -----------------------
+        # script.txt → subtitle.srt
+        # -----------------------
+
+        with open(script_path, "r", encoding="utf-8") as f:
+            text = f.read().strip()
+
+        # 1行あたり約8単語で改行
+        words = text.split()
+
+        lines = []
+
+        for i in range(0, len(words), 8):
+            lines.append(" ".join(words[i:i+8]))
+
+        subtitle_duration = duration / len(lines)
+
+
+        def to_srt_time(sec):
+            h = int(sec // 3600)
+            m = int((sec % 3600) // 60)
+            s = int(sec % 60)
+            ms = int((sec - int(sec)) * 1000)
+
+            return f"{h:02}:{m:02}:{s:02},{ms:03}"
+
+
+       with open(subtitle_path, "w", encoding="utf-8") as f:
+
+           current = 0
+
+           for index, line in enumerate(lines):
+
+               start = current
+               end = current + subtitle_duration
+
+               f.write(f"{index+1}\n")
+               f.write(f"{to_srt_time(start)} --> {to_srt_time(end)}\n")
+               f.write(f"{line}\n\n")
+
+               current = end
+
+        print("SRT CREATED")
+        print(subtitle_path)
+        
         # -----------------------
         # list.txt 作成
         # -----------------------
