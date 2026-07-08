@@ -162,7 +162,10 @@ def create_video():
             "[3:v]scale=1080:1920,setsar=1[v3];"
             "[v0][v1][v2][v3]concat=n=4:v=1:a=0[video];"
             "[4:a]volume=1.0[narration];"
-            "[5:a]volume=0.15[bgm];"
+            "[5:a]volume=0.15,"
+            "afade=t=in:st=0:d=2,"
+            f"afade=t=out:st={duration-2}:d=2"
+            "[bgm];"
             "[narration][bgm]amix=inputs=2:duration=first[audio]",
             
             "-map", "[video]",
