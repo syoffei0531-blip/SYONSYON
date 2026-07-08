@@ -183,6 +183,12 @@ def create_video():
 
         output = "/tmp/video/output.mp4"
 
+        fade = 0.5
+
+        offset1 = scene_duration - fade
+        offset2 = (scene_duration * 2) - (fade * 2)
+        offset3 = (scene_duration * 3) - (fade * 3)
+        
         command = [
             "ffmpeg",
             "-y",
@@ -208,18 +214,23 @@ def create_video():
             
             "-filter_complex",
 
-            "[0:v]scale=1080:1920,setsar=1[v0];"
-            "[1:v]scale=1080:1920,setsar=1[v1];"
-            "[2:v]scale=1080:1920,setsar=1[v2];"
-            "[3:v]scale=1080:1920,setsar=1[v3];"
-            f"[v0][v1][v2][v3]concat=n=4:v=1:a=0[base];"
+            "[0:v]scale=1080:1920,setsar=1,fps=30,format=yuv420p[v0];"
+            "[1:v]scale=1080:1920,setsar=1,fps=30,format=yuv420p[v1];"
+            "[2:v]scale=1080:1920,setsar=1,fps=30,format=yuv420p[v2];"
+            "[3:v]scale=1080:1920,setsar=1,fps=30,format=yuv420p[v3];"
+            
+            f"[v0][v1]xfade=transition=fade:duration={fade}:offset={offset1}[x1];"
+            f"[x1][v2]xfade=transition=fade:duration={fade}:offset={offset2}[x2];"
+            f"[x2][v3]xfade=transition=fade:duration={fade}:offset={offset3}[base];"
+            
             f"[base]subtitles={subtitle_path}[video];"
-            [4:a]volume=1.3[narration];
+            
+            "[4:a]volume=1.3[narration];"
             "[5:a]volume=0.15,"
             "afade=t=in:st=0:d=2,"
             f"afade=t=out:st={duration-2}:d=2"
             "[bgm];"
-            [narration][bgm]amix=inputs=2:duration=first:normalize=0[audio]
+            "[narration][bgm]amix=inputs=2:duration=first:normalize=0[audio]",
             
             "-map", "[video]",
             "-map", "[audio]",
