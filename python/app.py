@@ -126,7 +126,7 @@ def create_video():
             return f"{h:02}:{m:02}:{s:02},{ms:03}"
 
 
-       with open(subtitle_path, "w", encoding="utf-8") as f:
+        with open(subtitle_path, "w", encoding="utf-8") as f:
 
            current = 0
 
