@@ -27,6 +27,7 @@ def create_video():
 
         audio = request.files["audio"]
         bgm = request.files["bgm"]
+        subtitle = request.files["subtitle"]
         
         # -----------------------
         # 一時保存
@@ -39,6 +40,7 @@ def create_video():
         
         audio_path = "/tmp/video/audio.mp3"
         bgm_path = "/tmp/video/bgm.mp3"
+        subtitle_path = "/tmp/video/subtitle.srt"
         
         image1.save(image1_path)
         image2.save(image2_path)
@@ -47,6 +49,7 @@ def create_video():
 
         audio.save(audio_path)
         bgm.save(bgm_path)
+        subtitle.save(subtitle_path)
         
         print("========== SAVED FILES ==========")
 
@@ -160,16 +163,14 @@ def create_video():
             "[1:v]scale=1080:1920,setsar=1[v1];"
             "[2:v]scale=1080:1920,setsar=1[v2];"
             "[3:v]scale=1080:1920,setsar=1[v3];"
-            "[v0][v1][v2][v3]concat=n=4:v=1:a=0[video];"
+            f"[v0][v1][v2][v3]concat=n=4:v=1:a=0[base];"
+            f"[base]subtitles={subtitle_path}[video];"
             "[4:a]volume=1.0[narration];"
             "[5:a]volume=0.15,"
             "afade=t=in:st=0:d=2,"
             f"afade=t=out:st={duration-2}:d=2"
             "[bgm];"
             "[narration][bgm]amix=inputs=2:duration=first[audio]",
-
-            "-vf",
-            f"subtitles={subtitle_path}",
             
             "-map", "[video]",
             "-map", "[audio]",
