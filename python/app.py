@@ -8,7 +8,17 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Python API OK!"
+    return """
+    <h1>Japan Hidden Stories</h1>
+
+    <p>AI platform for automatically publishing educational videos about Japanese culture.</p>
+
+    <p><a href="/privacy">Privacy Policy</a></p>
+
+    <p><a href="/terms">Terms of Service</a></p>
+
+    <p>Contact: syoffei0531@gmail.com</p>
+    """
 
 @app.route("/tiktokd4nUffblE8bbcZnU3otgBCAB")
 def tiktok_verify():
