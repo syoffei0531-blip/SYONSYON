@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, Response
 import subprocess
 import os
 import requests
@@ -9,6 +9,13 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return "Python API OK!"
+
+@app.route("/tiktokd4nUffblE8bbcZnU3otgBCAB")
+def tiktok_verify():
+    return Response(
+        "tiktok-developers-site-verification=d4nUffblE8bbcZnU3otgBCAByFcyTvaQ",
+        mimetype="text/plain"
+    )
 
 @app.route("/privacy")
 def privacy():
