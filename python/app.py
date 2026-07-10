@@ -10,6 +10,23 @@ app = Flask(__name__)
 def home():
     return "Python API OK!"
 
+@app.route("/privacy")
+def privacy():
+    return """
+    <h1>Privacy Policy</h1>
+    <p>This application only uses TikTok APIs to publish videos authorized by the user.</p>
+    <p>No personal information is sold or shared with third parties.</p>
+    <p>Contact: syoffei0531@gmail.com</p>
+    """
+
+@app.route("/terms")
+def terms():
+    return """
+    <h1>Terms of Service</h1>
+    <p>This application is used to automatically publish educational videos about Japanese culture.</p>
+    <p>Users are responsible for the content they publish.</p>
+    """
+
 
 @app.route("/create-video", methods=["POST"])
 def create_video():
