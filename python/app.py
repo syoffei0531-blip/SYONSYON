@@ -47,6 +47,14 @@ def tiktok_verify():
         "tiktok-developers-site-verification=d4nUffblE8bbcZnU3otgBCAByFcyTvaQ",
         mimetype="text/plain"
     )
+from flask import Response
+
+@app.route("/tiktokzzL3jSgljn7HlUWykqiO3sGmR5MKhD7q.txt")
+def tiktok_verify_new():
+    return Response(
+        "tiktok-developers-site-verification=zzL3jSgljn7HlUWykqiO3sGmR5MKhD7q",
+        mimetype="text/plain"
+    )
 
 @app.route("/privacy")
 def privacy():
