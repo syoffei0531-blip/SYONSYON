@@ -9,6 +9,27 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return """
+    <html>
+    <head>
+        <title>Japan Hidden Stories</title>
+    </head>
+    <body>
+        <h1>Japan Hidden Stories</h1>
+
+        <p>
+            AI platform for automatically publishing educational videos
+            about Japanese culture to TikTok.
+        </p>
+
+        <p><a href="/privacy">Privacy Policy</a></p>
+        <p><a href="/terms">Terms of Service</a></p>
+
+        <p>Contact: syoffei0531@gmail.com</p>
+    </body>
+    </html>
+    """
+def home():
+    return """
     <h1>Japan Hidden Stories</h1>
 
     <p>AI platform for automatically publishing educational videos about Japanese culture.</p>
