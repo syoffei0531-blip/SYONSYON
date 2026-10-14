@@ -2,12 +2,17 @@ FROM n8nio/n8n:2.43.5
 
 USER root
 
-RUN apt-get update && \
-    apt-get install -y \
+RUN apk add --no-cache \
     python3 \
-    python3-pip \
-    ffmpeg && \
-    rm -rf /var/lib/apt/lists/*
+    py3-pip \
+    ffmpeg \
+    build-base \
+    python3-dev \
+    linux-headers \
+    musl-dev \
+    jpeg-dev \
+    zlib-dev \
+    libpng-dev
 
 RUN pip3 install --break-system-packages \
     moviepy \
